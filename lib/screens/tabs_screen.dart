@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/screens/categories_screen.dart';
 import 'package:meals_app/screens/meals_screen.dart';
+import 'package:meals_app/widgets/main_drawer.dart';
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({super.key});
@@ -17,6 +18,7 @@ class _TabsScreenState extends State<TabsScreen> {
 
   final List<Meal> _favoriteMeals = [];
 
+  // Snackbar with info about meal added or removed as favorite
   void _showInfoMessage(String message) {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
@@ -26,6 +28,7 @@ class _TabsScreenState extends State<TabsScreen> {
     );
   }
 
+  // Marking and unmarking as favorite
   void _toggleMealFavoriteStatus(Meal meal) {
     final isExisting = _favoriteMeals.contains(meal);
 
@@ -39,6 +42,14 @@ class _TabsScreenState extends State<TabsScreen> {
         _favoriteMeals.add(meal);
       });
       _showInfoMessage("Meal marked as favorite");
+    }
+  }
+
+  // To navigate through side drawer
+  void _setScreen(String identifier) {
+    if (identifier == 'filters') {
+    } else {
+      Navigator.pop(context);
     }
   }
 
@@ -65,6 +76,9 @@ class _TabsScreenState extends State<TabsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(activePageTitle),
+      ),
+      drawer: MainDrawer(
+        onSelectScreen: _setScreen,
       ),
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
